@@ -73,6 +73,12 @@ function Register() {
           Reset
         </button>
       </form>
+      <div>
+        <h1>Live Preview</h1>
+        <p>Name: {formData.name} </p>
+        <p>Email: {formData.email} </p>
+        <p>Password: {"*".repeat(formData.password.length)} </p>
+      </div>
     </>
   );
 }
