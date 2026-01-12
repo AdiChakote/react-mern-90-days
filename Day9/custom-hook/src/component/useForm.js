@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 function useForm(initialValue) {
   const [formData, setFormData] = useState(initialValue);
   const [touched, setTouched] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const validateForm = () => {
     return {
@@ -32,6 +35,26 @@ function useForm(initialValue) {
     }));
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMsg("");
+    setIsSuccess(false);
+    if (isFormInvalid) return;
+    try {
+      setIsSubmitting(true);
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      console.log("Form Submitted, ", formData);
+      setIsSuccess(true);
+      setFormData(initialValue);
+      setTouched({});
+    } catch (err) {
+      setErrorMsg("Something Went Wrong !");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  /*
   useEffect(() => {
     Object.keys(error).forEach((field) => {
       if (!error[field]) {
@@ -42,16 +65,18 @@ function useForm(initialValue) {
       }
     });
   }, [formData]);
-
+  */
   return {
     formData,
     touched,
-    setTouched,
+    error,
+    isFormInvalid,
+    isSubmitting,
+    isSuccess,
+    errorMsg,
     handleBlur,
     handleChange,
-    isFormInvalid,
-    setFormData,
-    error,
+    handleSubmit,
   };
 }
 

@@ -4,11 +4,12 @@ function Register() {
   const {
     formData,
     touched,
-    setTouched,
+    handleSubmit,
     handleChange,
     handleBlur,
-    setFormData,
-    isFormInvalid,
+    isSubmitting,
+    isSuccess,
+    errorMsg,
     error,
   } = useForm({ name: "", email: "", password: "" });
 
@@ -19,66 +20,58 @@ function Register() {
     return "Strong";
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (isFormInvalid) {
-      console.log("Form Invalid");
-      return;
-    }
-    console.log("Form Submitted, ", formData);
-    setFormData({
-      name: "",
-      email: "",
-      password: "",
-    });
-
-    setTouched({});
-  };
-
   return (
     <>
       <div>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Name</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-            {touched.name && error.name && <p>Name must be of 3 Character</p>}
-          </div>
-          <div>
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-            {touched.email && error.email && <p>Email Required</p>}
-          </div>
-          <div>
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
-            />
-            {touched.password && error.password && <p>Password Required</p>}
-            {formData.password && (
-              <p>Password Strength: {getPasswordStrength()}</p>
-            )}
-          </div>
-          <button type="submit" disabled={isFormInvalid}>
-            Submit
-          </button>
-        </form>
+        <h1>Register</h1>
+        {errorMsg && <p>{errorMsg}</p>}
+        {isSuccess && <p>Registration Successfull !</p>}
+        <div>
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label>Name</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                disabled={isSubmitting}
+              />
+              {touched.name && error.name && <p>Name must be of 3 Character</p>}
+            </div>
+            <div>
+              <label>Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                disabled={isSubmitting}
+              />
+              {touched.email && error.email && <p>Email Required</p>}
+            </div>
+            <div>
+              <label>Password</label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                disabled={isSubmitting}
+              />
+              {touched.password && error.password && <p>Password Required</p>}
+              {formData.password && (
+                <p>Password Strength: {getPasswordStrength()}</p>
+              )}
+            </div>
+            <button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Submitting..." : "Submit"}
+            </button>
+          </form>
+        </div>
       </div>
     </>
   );
