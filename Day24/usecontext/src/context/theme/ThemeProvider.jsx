@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ThemeContext from "./ThemeContext";
 
-const ThemeContextProvider = ({ children }) => {
+function ThemeProvider({ children }) {
   const [theme, setTheme] = useState("light");
 
   const toggleTheme = () => {
@@ -10,10 +10,9 @@ const ThemeContextProvider = ({ children }) => {
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {" "}
-      {children}{" "}
+      {children}
     </ThemeContext.Provider>
   );
-};
+}
 
-export default ThemeContextProvider;
+export default ThemeProvider;

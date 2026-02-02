@@ -1,5 +1,5 @@
 import { useState } from "react";
-import authContext from "./authContext";
+import AuthContext from "./AuthContext";
 
 function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -8,9 +8,9 @@ function AuthProvider({ children }) {
   const logout = () => setUser(null);
 
   return (
-    <authContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
-    </authContext.Provider>
+    </AuthContext.Provider>
   );
 }
 
